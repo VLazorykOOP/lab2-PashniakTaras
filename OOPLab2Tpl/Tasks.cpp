@@ -34,22 +34,19 @@ void task2()
     // Шифрування даних з використання побітових операцій 
     // Data encryption using bitwise operations
     cout << "Data encryption using bitwise operations  \n";
-    char S[64];
-    unsigned short Rez[64];
+
+    char S[128];
+    unsigned short Rez[128];
     
     unsigned char c;
     unsigned short r, t, i, b;
     short j;
-    cin.get(S, 64);
-    for (i = 0; i < 64; i++) //
+    cout << "Input text: ";
+    cin.get(S, 128);
+    cout << endl;
+    for (i = 0; i < 128; i++) //
     {
-        r = 0; // 0000 0000 0000 0000
-        c = S[i]; // s - 0x73 = 0111 0011
-        t = c;
-        r |= t >> 4; // 0000 0000 0000 0111
-        r |= i << 4; // 0000 0000 0101 0111 if i=5 -> 0000 0000 0000 0101
-        t = c;
-        r |= t << 12; // 0011 0000 0101 0111 if i=5 0000 0000 0000 0101
+        r = 0;
         t = 1;
         b = 0;
         for (j = 0; j < 16; j++) // обчислення біта парності
@@ -59,11 +56,21 @@ void task2()
             }
             t <<= 1;
         }
-        r |= b << 11; // 0011 0000 0101 0111 if i=5 0000 0000 0000 0101
+        r |= b;         // 0 біт – біт парності (1 біт)
+
+        c = S[i];       // у бітах 1-8 ASCII - код букви (8 біт)
+        t = c;
+        r |= t << 1;
+
+        r |= i << 9;    // у бітах 9-15 позиція букви у рядку (7 біти)
+
         Rez[i] = r;
     }
-    for (i = 0; i < 64; i++)
-        cout << hex << Rez[i] << endl;
+    for (i = 0; i < 128; i++) {
+        cout << hex << Rez[i] << "\t";
+        if ((i+1) % 4 == 0) cout << endl;
+    }
+        
     cin.get();
     return;
 }
@@ -110,7 +117,7 @@ int Do()
         case '6':
         return 0;
         }
-        cout << " Press any key and enter\n";
+        cout << "Press any key and enter\n";
         ch = cin.get();
     } while (ch != '6');
 
