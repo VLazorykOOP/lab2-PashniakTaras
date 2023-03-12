@@ -12,27 +12,66 @@ void MenuTask()
     cout << "    5.  Examples of problems using bitwise operations \n";
     cout << "    6.  Exit \n";
 }
+
+void Shifruvanna(char S[64], unsigned short Rez[64])
+{
+    unsigned char c;
+    unsigned short r, t, i, b;
+    short j;
+    cin.get(S, 64);
+    for (i = 0; i < 64; i++) //
+    {
+        r = 0; // 0000 0000 0000 0000
+        c = S[i]; // s - 0x73 = 0111 0011
+        t = c;
+        r |= t >> 4; // 0000 0000 0000 0111
+        r |= i << 4; // 0000 0000 0101 0111 if i=5 -> 0000 0000 0000 0101
+        t = c;
+        r |= t << 12; // 0011 0000 0101 0111 if i=5 0000 0000 0000 0101
+        t = 1;
+        b = 0;
+        for (j = 0; j < 16; j++) // обчислення біта парності
+        {
+            if (r & t) {
+                if (b == 0) b = 1; else b = 0;
+            }
+            t <<= 1;
+        }
+        r |= b << 11; // 0011 0000 0101 0111 if i=5 0000 0000 0000 0101
+        Rez[i] = r;
+    }
+}
+
 void task1() {
     // Обчислення виразів з використанням побітових операцій
     // Calculation of expressions using bitwise operations 
     cout << " Calculation of expressions using bitwise operations  \n";
     setlocale(LC_CTYPE, "ukr");
-    cout << "Задано цілі числа a, b, c та d.\nОбчислити вираз без використання операцій множення та ділення(замінивши на їх операцій зсувів).\n";
-        cout << "Введіть a, b, c, d:";
-        int a, b, c, d, r, r2;
-        cin >> a >> b >> c >> d;
-        r = 33 * b + (d * 15 + 12 * a) / 512 - 65 * c + d * 14;
-        r2 = (b << 5) + b + ((d << 4) - d + (b << 3) + (b << 2)) >> 9 - (c << 6) + c + (d << 4) - (d << 1);
-        cout << "Результат: \nЗвичайне обчислювання:" << r << "\nПобітові операції:" << r2;
-        return;
+    cout << "Задано цiлi числа a, b, c та d.\nОбчислити вираз без використання операцiй множення та дiлення(замiнивши на iх операцiй зсувiв).\n";
+    cout << "Введiть a, b, c, d:";
+    int a, b, c, d, r, r2;
+    cin >> a >> b >> c >> d;
+    r = 33 * b + (d * 15 + 12 * a) / 512 - 65 * c + d * 14;
+    r2 = (b + (b << 5)) + (((d << 4) - d + (b << 3) + (b << 2)) >> 9) - ((c << 6) + c) + ((d << 4) - (d << 1));
+    cout << "Результат: \nЗвичайне обчислювання:" << r << "\nПобiтовi операцiї:" << r2 << endl;
+    cin.get();
+    return;
 }
 
 void task2()
 {
     // Шифрування даних з використання побітових операцій 
     // Data encryption using bitwise operations
-    cout << " Data encryption using bitwise operations  \n";
-
+    cout << "Data encryption using bitwise operations  \n";
+    char S[64];
+    unsigned short Rez[64];
+    unsigned short i;
+    cin.get(S, 64);
+    Shifruvanna(S, Rez);
+    for (i = 0; i < 64; i++)
+        cout << hex << Rez[i] << endl;
+    cin.get();
+    return;
 }
 
 void task3()
@@ -51,7 +90,7 @@ void task4()
 }
 
 
-int main() 
+int Do() 
 {
     char ch = '5';
     do {
