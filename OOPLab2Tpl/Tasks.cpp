@@ -76,7 +76,7 @@ void task2()
         Rez[i] = r;
     }
     for (i = 0; i < 128; i++) {
-        cout << Rez[i] << "\t";
+        cout << hex << Rez[i] << "\t";
         if ((i+1) % 4 == 0) cout << endl;
     }
         
@@ -89,13 +89,53 @@ void task3()
     // Шифрування даних з використання стуктур з бітовими полями 
     // Data encryption using structures with bit fields
     cout << "Data encryption using structures with bit fields \n";
-    int h, x, mb1 = 1, mb3 = 1 << 2;
-    cout << "Input h: ";
-    cin >> h;
-    if ((h & mb1) == 1 && ((h & mb3) >> 2) == 0) x = h << 2;
-    else x = h >> 1;
-    cout << "h= " << h << "; x= " << x << endl;
+
+    struct bit {
+        unsigned char c : 8;   // розмірність ASCII дорівнює максимум 8 бітів
+        unsigned short r : 16; // займатиме максимум 16 бітів як зберігач результату
+        unsigned short t : 16; // тимчасова змінна
+        unsigned short i : 8;  // оскільки i<=128, то займатиме максимум 8 бітів
+        unsigned short b: 1;   // займає тільки один біт
+        short j: 5;            // оскільки j<=16, то займатиме максимум 5 бітів 
+    };
+    char S[128];
+    unsigned short Rez[128];
+
+    cout << "Input text: ";
+    cin.get(S, 128);
+    cout << endl;
+    int n = strlen(S);          // Доповнення тексту пробілами
+    for (int i = n; i < 128; i++) S[i] = '\0';
+    
+    for (bit.i = 0; bit.i < 128; bit.i++) //
+    {
+        bit.r = 0;
+        bit.t = 1;
+        bit.b = 0;
+        for (bit.j = 0; bit.j < 16; bit.j++) // обчислення біта парності
+        {
+            if (bit.r & bit.t) {
+                if (bit.b == 0) bit.b = 1; else bit.b = 0;
+            }
+            bit.t <<= 1;
+        }
+        bit.r |= bit.b;         // 0 біт – біт парності (1 біт)
+
+        bit.c = S[bit.i];       // у бітах 1-8 ASCII - код букви (8 біт)
+        bit.t = bit.c;
+        bit.r |= bit.t << 1;
+
+        bit.r |= bit.i << 9;    // у бітах 9-15 позиція букви у рядку (7 біти)
+
+        Rez[bit.i] = bit.r;
+    }
+    for (bit.i = 0; bit.i < 128; bit.i++) {
+        cout << hex << Rez[bit.i] << "\t";
+        if ((bit.i + 1) % 4 == 0) cout << endl;
+    }
+
     cin.get();
+    return;
 }
 
 
