@@ -33,6 +33,13 @@ void task2()
 {
     // Шифрування даних з використання побітових операцій 
     // Data encryption using bitwise operations
+
+    /*  Задано текст до 128 символів. Доповнити пробілами до 128 символів. Шифрувати тексти 
+        таким чином, щоб кожний символ тексту записувався у два байти. Два байти мають таку 
+        структуру: 
+            0 біт – біт парності (1 біт)
+            у бітах 1-8 ASCII - код букви (8 біт), 
+            у бітах 9-15 позиція букви у рядку (7 біти) */
     cout << "Data encryption using bitwise operations  \n";
 
     char S[128];
@@ -42,7 +49,9 @@ void task2()
     unsigned short r, t, i, b;
     short j;
     cout << "Input text: ";
-    cin.get(S, 128);
+    cin.get(S, 128);        
+    int n = strlen(S);          // Доповнення тексту пробілами
+    for (int i = n; i < 128; i++) S[i] = '\0';
     cout << endl;
     for (i = 0; i < 128; i++) //
     {
@@ -67,7 +76,7 @@ void task2()
         Rez[i] = r;
     }
     for (i = 0; i < 128; i++) {
-        cout << hex << Rez[i] << "\t";
+        cout << Rez[i] << "\t";
         if ((i+1) % 4 == 0) cout << endl;
     }
         
