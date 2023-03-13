@@ -1,4 +1,6 @@
 ﻿#include <iostream>
+#include <string>
+#include <clocale>
 using namespace std;
 #include "Tasks.h"
 #include "Examples.h"
@@ -138,39 +140,50 @@ void task3()
     return;
 }
 
+string zsuv(string str, int shift) {
+    int size = str.size();
+    // Якщо зсув більше за розмір рядка, то зменшуємо його до значення, що не перевищує розмір рядка
+    if (shift > size) {
+        shift = shift % size;
+    }
+    // Якщо зсув дорівнює розміру рядка, то рядок не змінюється
+    if (shift == size) {
+        return str;
+    }
+    // Зсуваємо символи рядка
+    for (int i = 0; i < size; i++) {
+        // Обчислюємо індекс символу, який буде знаходитися на i-й позиції після зсуву
+        int index = (i + shift) % size;
+        // Замінюємо символ на i-й позиції символом, який знаходиться на index-й позиції
+        char tmp = str[i];
+        str[i] = str[index];
+        str[index] = tmp;
+    }
+    return str;
+}
 
 void task4()
 {   // Задача із використання побітових операцій
     // The problem of using bitwise operations
-    cout << " Data encryption using structures with bit fields \n";
+    // Зашифрувати рядок символів циклічним зсувом вліво його бітів на вказану величину
+    cout << "Data encryption using structures with bit fields \n";
 
+    setlocale(LC_CTYPE, "ukr");
+    string str;
+    cout << "Введiть рядок символiв: ";
+    getline(cin, str);
+    int shift;
+    cout << "Введiть величину зсуву у бiтах: ";
+    cin >> shift;
+
+    string encrypted_str = zsuv(str, shift);
+
+    cout << "Зашифрований рядок символiв: " << encrypted_str << endl;
+    cin.get();
+    return;
 }
 
 
-int Do() 
-{
-    char ch = '5';
-    do {
-        system("cls");
-        MenuTask();
-        ch = cin.get();
 
-        cin.get();
-
-        switch (ch) {
-        case '1': task1();   break;
-        case '2': task2();   break;
-        case '3': task3();   break;
-        case '4': task4();   break;
-        case '5': cout << "No task5 available.";  break;
-        case '6':
-        return 0;
-        }
-        cout << "Press any key and enter\n";
-        ch = cin.get();
-    } while (ch != '6');
-
-    return 0;
-}
 
 
