@@ -90,7 +90,7 @@ void task3()
     // Data encryption using structures with bit fields
     cout << "Data encryption using structures with bit fields \n";
 
-    struct bit {
+    struct bits {
         unsigned char c : 8;   // розмірність ASCII дорівнює максимум 8 бітів
         unsigned short r : 16; // займатиме максимум 16 бітів як зберігач результату
         unsigned short t : 16; // тимчасова змінна
@@ -100,7 +100,7 @@ void task3()
     };
     char S[128];
     unsigned short Rez[128];
-
+    bits bit;
     cout << "Input text: ";
     cin.get(S, 128);
     cout << endl;
